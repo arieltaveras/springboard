@@ -28,3 +28,15 @@ let input = document.getElementById('username');
 function submitForm() {
     usernames.push(input.value);
 }
+
+
+
+//not a pure function...
+function append(arr,val){
+    arr.push(val);
+}
+
+//makes a new array making this a pure function
+function appendPure(arr,val){
+    return[...arr, val]
+}
