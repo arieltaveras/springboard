@@ -8,9 +8,9 @@ describe('payment test with setup and tear down', ()=>{
         submitPaymentInfo();
 
         expect(Object.keys(allPayments).length).toEqual(1);
-        expect(allPayments['payment'].billAmt).toEqual('100');
-        expect(allPayments['payment'].tipAmt).toEqual('20');
-        expect(allPayments['payment'].tipPercent).toEqual(20);
+        expect(allPayments['payment1'].billAmt).toEqual('100');
+        expect(allPayments['payment1'].tipAmt).toEqual('20');
+        expect(allPayments['payment1'].tipPercent).toEqual(20);
     });
     it('should not add a new payment on submitPaymentInfo() with empty input', function () {
         billAmtInput.value = '';
