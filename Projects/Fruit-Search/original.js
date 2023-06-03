@@ -84,9 +84,16 @@ const fruit = [
 ];
 
 function search(str) {
-  return fruit.filter(
-    (i) => i.toLowerCase().includes(str.toLowerCase()) && str !== ""
-  );
+  let results = [];
+  // TODO
+
+  for (let i of fruit) {
+    if (i.toLowerCase().includes(str.toLowerCase()) && str !== "") {
+      results.push(i);
+    }
+  }
+  showSuggestions(results, str);
+  return results;
 }
 
 function searchHandler(e) {
@@ -100,9 +107,11 @@ function showSuggestions(results, inputVal) {
 
   for (let result of results) {
     const list = document.createElement("li");
-    list.innerHTML = result.replace(inputVal, function (match) {
-		return `<b>${match}</b>`;
-	  });
+    const set = new Set(inputVal, "");
+    const searchResult = result.replace(set, function (match) {
+      return `${match}`;
+    });
+    list.innerHTML = searchResult;
     suggestions.appendChild(list);
   }
 }
