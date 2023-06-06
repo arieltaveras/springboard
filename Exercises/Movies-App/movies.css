@@ -1,0 +1,14 @@
+h1{
+    font-size: 3rem;
+    text-align: center;
+}
+
+form div{
+    display: inline-block;
+    align-items: flex-start;
+}
+
+th tr{
+    display: inline-block;
+    /* align-items: flex-start; */
+}
