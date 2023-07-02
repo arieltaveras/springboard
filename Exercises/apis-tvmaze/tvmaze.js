@@ -1,8 +1,11 @@
 "use strict";
 
+const MISSING_IMAGE_URL = "https://tinyurl.com/missing-tv";
+
 const $showsList = $("#showsList");
 const $episodesArea = $("#episodesArea");
 const $searchForm = $("#searchForm");
+const $episodesList = $("#episodesList");
 
 
 /** Given a search term, search for tv shows that match that query.
@@ -85,9 +88,8 @@ $searchForm.on("submit", async function (evt) {
 //   const res = await axios.get(`https://api.tvmaze.com/episodes/${id}`);
 
   async function getEpisodesOfShow(id) {
-    const res = await axios.get(`https://api.tvmaze.com/episodes/${id}?embed=show`);
+    const res = await axios.get(`https://api.tvmaze.com/shows/${id}/episodes?specials=1`);
     console.log(res.id);
-    
 
   return res.data.map(e => ({
     id: e.id,
@@ -101,14 +103,50 @@ $searchForm.on("submit", async function (evt) {
 // not sure on how to display the episodes. I am stuck here
 
 function populateEpisodes(episodes) {
-  const ul = document.querySelector('#episodesList');
-  for(let show of episodes){
-    const newLI = document.createElement('LI');
-    newLI.innerHTML += `${show._link}`
-    ul.append(newLI)
-    console.log(show._link);
+  $episodesList.empty();
+
+  for (let episode of episodes) {
+    const $item = $(
+      `<li>
+         ${episode.name}
+         (season ${episode.season}, episode ${episode.number})
+       </li>
+      `);
+
+    $episodesList.append($item);
   }
- }
+
+  $episodesArea.show();
+}
+
+//doesnt work...
+// function populateEpisodes(episodes) {
+//   const ul = document.querySelector('#episodesList');
+//   for(let show of episodes){
+//     const newLI = document.createElement('LI');
+//     newLI.innerHTML += `${show._link}`
+//     ul.append(newLI)
+//     console.log(show._link);
+//   }
+//  }
 
  const btn = document.querySelector('#episodesList');
  btn.addEventListener('click', getEpisodesOfShow)
+
+ async function getEpisodesAndDisplay(evt) {
+  // here's one way to get the ID of the show: search "closest" ancestor
+  // with the class of .Show (which is put onto the enclosing div, which
+  // has the .data-show-id attribute).
+  const showId = $(evt.target).closest(".Show").data("show-id");
+
+  // here's another way to get the ID of the show: search "closest" ancestor
+  // that has an attribute of 'data-show-id'. This is called an "attribute
+  // selector", and it's part of CSS selectors worth learning.
+  // const showId = $(evt.target).closest("[data-show-id]").data("show-id");
+
+  const episodes = await getEpisodesOfShow(showId);
+  populateEpisodes(episodes);
+}
+
+$showsList.on("click", ".Show-getEpisodes", getEpisodesAndDisplay);
+
