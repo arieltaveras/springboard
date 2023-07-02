@@ -135,15 +135,7 @@ function populateEpisodes(episodes) {
  btn.addEventListener('click', getEpisodesOfShow)
 
  async function getEpisodesAndDisplay(evt) {
-  // here's one way to get the ID of the show: search "closest" ancestor
-  // with the class of .Show (which is put onto the enclosing div, which
-  // has the .data-show-id attribute).
   const showId = $(evt.target).closest(".Show").data("show-id");
-
-  // here's another way to get the ID of the show: search "closest" ancestor
-  // that has an attribute of 'data-show-id'. This is called an "attribute
-  // selector", and it's part of CSS selectors worth learning.
-  // const showId = $(evt.target).closest("[data-show-id]").data("show-id");
 
   const episodes = await getEpisodesOfShow(showId);
   populateEpisodes(episodes);
