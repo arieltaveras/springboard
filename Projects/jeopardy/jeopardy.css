@@ -1,0 +1,30 @@
+/* some colors you may find useful:
+  #115ff4
+  #060ce9
+  #28a200
+  #8d2ab5
+  #74119c
+*/
+
+body {
+  background-color: #115ff4;
+  color: whitesmoke;
+}
+
+h1 {
+  font-size: larger;
+  font-weight: bolder;
+}
+div.col-6 {
+  background-color:#060ce9;
+  color: whitesmoke;
+  font-family: 'Source Sans 3', sans-serif;
+  height: 100px;
+}
+
+div#center-question {
+  background-color:#060ce9;
+  color: whitesmoke;
+  font-family: 'Source Sans 3', sans-serif;
+  height: 200px;
+}
