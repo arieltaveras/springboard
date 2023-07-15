@@ -18,12 +18,13 @@
 //    ...
 //  ]
 const $catArea = ("#jeopardy");
+const NUM_CATEGORIES = 4
 
 let categories = [];
 async function numCat() {
-    const res = await axios.get("http://jservice.io/api/random");
-    console.log(res.data);
-    return res.data[0].category
+    const res = await axios.get(`http://jservice.io/api/categories?count=1&offset=${Math.floor(Math.random() * 100)}`);
+    console.log(res.data[0].id);
+    return res.data[0].id
 }
 
 /** Get NUM_CATEGORIES random category from API.
@@ -32,21 +33,12 @@ async function numCat() {
  */
 
 function getCategoryIds() {
-    let title = numCat.title;
-    if(title) {
-        let randomCat = Math.floor(Math.random() * title);
-        let $newCol = $('<div>', { class: "col.md-4 vol-4"});
-
-        let $newCat = $('<div>', {
-            src: res.data[randomCat].title.url,
-            class: "w-100"
-        });
-    
-        $newCol.append($newCat);
-        $catArea.append($newCol);    
-    }
-    console.log(res.data)
+    ids = []
+    for (let i = 0; i < NUM_CATEGORIES; i++)
+        ids.push(numCat())
+    return ids
 }
+
 
 /** Return object with data about a category:
  *
@@ -61,7 +53,9 @@ function getCategoryIds() {
  */
 
 
-function getCategory(catId) {
+async function getCategory(catId) {
+    const res = await axios.get(`http://jservice.io/api/category?id=${catId}`)
+    return res.data
 }
 
 /** Fill the HTML Card#jeopardy with the categories & cells for questions.
@@ -74,6 +68,7 @@ function getCategory(catId) {
  */
 
 async function fillCard() {
+    
 }
 
 /** Handle clicking on a clue: show the question or answer.
