@@ -23,8 +23,13 @@ function generateStoryMarkup(story) {
   // console.debug("generateStoryMarkup", story);
 
   const hostName = story.getHostName();
+
+  const showFav = Boolean(currentUser);
+
   return $(`
       <li id="${story.storyId}">
+        <div>
+        ${showFav ? getFavHTML(story, currentUser) : ""}
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -50,3 +55,24 @@ function putStoriesOnPage() {
 
   $allStoriesList.show();
 }
+
+// submit the story form
+async function submitTheStory(evt) {
+  console.debug("submitTheStory");
+  evt.preventDefault();
+
+  const title = $("#make-title").val();
+  const url = $("#make-url").val();
+  const author = $("#make-author").val();
+  const username = currentUser.username;
+
+  await storyList.addStory(currentUser, { title, url, author, username });
+
+  const $story = generateStoryMarkup($story);
+  $allStoriesList.prepend($story);
+
+  $submitForm.slideUp("slow");
+  $submitForm.trigger("reset");
+}
+
+$submitForm.on("submit", submitTheStory);

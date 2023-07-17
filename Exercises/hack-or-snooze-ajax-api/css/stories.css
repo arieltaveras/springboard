@@ -10,6 +10,18 @@
   margin: 10px 0;
 }
 
+.stories-list .story-author{
+  color: #26bf5f;
+  font-size: 0.8rem;
+  margin: 10px 0;
+}
+
+.stories-list .story-user{
+  color: #ffaa41;
+  font-size: 0.8rem;
+  margin: 10px 0;
+}
+
 #stories-loading-msg {
   font-weight: bold;
   font-size: 150%;
