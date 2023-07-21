@@ -18,7 +18,7 @@ async function getAndShowStoriesOnStart() {
  *
  * Returns the markup for the story.
  */
-
+function getFavHTML(story, currentUser){}
 function generateStoryMarkup(story) {
   // console.debug("generateStoryMarkup", story);
 
@@ -74,5 +74,5 @@ async function submitTheStory(evt) {
   $submitForm.slideUp("slow");
   $submitForm.trigger("reset");
 }
-
+const $submitForm = $("#submit-form")
 $submitForm.on("submit", submitTheStory);

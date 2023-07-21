@@ -22,8 +22,8 @@ function navSubmitStory(evt) {
   $allStoriesList.show();
   $submitForm.show();
 }
-
-$navSubmit.on("click", "#nav-submit-story", navSubmitStory);
+const $navSubmit = $("#nav-submit-story")
+$navSubmit.on("click", navSubmitStory);
 
 /** Show login/signup on click on "login" */
 

@@ -106,7 +106,7 @@ function saveUserCredentialsInLocalStorage() {
  * - update nav bar options for logged-in user
  * - generate the user profile part of the page
  */
-
+const $storiesContainer = $("stories-container")
 async function updateUIOnUserLogin() {
   console.debug("updateUIOnUserLogin");
 
