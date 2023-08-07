@@ -49,3 +49,20 @@
 .story-user {
   display: block;
 }
+
+.star:active {
+  color: black;
+}
+
+.star {
+  color: goldenrod;
+  cursor: pointer;
+}
+
+.trash-can {
+  cursor: pointer
+}
+
+.trash-can:hover {
+  color: red;
+}

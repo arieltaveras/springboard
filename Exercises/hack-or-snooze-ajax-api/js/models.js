@@ -72,17 +72,33 @@ class StoryList {
 
   async addStory(user, { title, author, url }) {
     const token = user.loginToken;
-    const res = await axios({
+    const response = await axios({
       method: "POST",
       url: `${BASE_URL}/stories`,
       data: { token, story: { title, author, url } },
     });
 
-    const story = new Story(res.data.story);
+    const story = new Story(response.data.story);
     this.stories.unshift(story);
     user.ownStories.unshift(story);
 
     return story;
+  }
+
+  async removeStory(user, storyId) {
+    const token = user.loginToken;
+    await axios({
+      url: `${BASE_URL}/stories/${storyId}`,
+      method: "DELETE",
+      data: { token: user.loginToken }
+    });
+
+    // filter out the story whose ID we are removing
+    this.stories = this.stories.filter(story => story.storyId !== storyId);
+
+    // do the same thing for the user's list of stories & their favorites
+    user.ownStories = user.ownStories.filter(s => s.storyId !== storyId);
+    user.favorites = user.favorites.filter(s => s.storyId !== storyId);
   }
 }
 
@@ -96,10 +112,14 @@ class User {
    *   - token
    */
 
-  constructor(
-    { username, name, createdAt, favorites = [], ownStories = [] },
-    token
-  ) {
+  constructor({
+               username,
+               name,
+               createdAt,
+               favorites = [],
+               ownStories = []
+              },
+              token) {
     this.username = username;
     this.name = name;
     this.createdAt = createdAt;
@@ -200,15 +220,15 @@ class User {
   // user favorites
   async addFav(story) {
     this.favorites.push(story);
-    await this.markUnmarkFav("add", story);
+    await this._markUnmarkFav("add", story);
   }
 
   async removeFav(story) {
     this.favorites = this.favorites.filter((s) => s.storyId !== story.storyId);
-    await this.markUnmarkFav("remove", story);
+    await this._markUnmarkFav("remove", story);
   }
 
-  async markUnmarkFav(mark, story) {
+  async _markUnmarkFav(mark, story) {
     const method = mark === "add" ? "POST" : "DELETE";
     const token = this.loginToken;
     await axios({
@@ -217,7 +237,8 @@ class User {
       data: { token },
     });
   }
-  userFav(story) {
+  
+  isFavorite(story) {
     return this.favorites.some((s) => s.storyId === story.storyId);
   }
 }
